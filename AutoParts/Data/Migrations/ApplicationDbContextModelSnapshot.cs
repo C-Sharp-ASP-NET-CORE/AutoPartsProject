@@ -62,6 +62,9 @@ namespace AutoParts.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Manufacturer")
                         .IsRequired()
                         .HasMaxLength(30)

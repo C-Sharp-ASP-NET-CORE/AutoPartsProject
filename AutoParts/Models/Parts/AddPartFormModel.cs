@@ -15,15 +15,15 @@
         public string Manufacturer { get; init; }
 
         [Required]
-        [Display(Name = "Car Brand")]
         [StringLength(PartCarBrandMaxLength,
             MinimumLength = PartCarBrandMinLength)]
+        [Display(Name = "Car Brand")]
         public string CarBrand { get; init; }
 
         [Required]
-        [Display(Name = "Car Model")]
         [StringLength(PartCarModelMaxLength,
            MinimumLength = PartCarModelMinLength)]
+        [Display(Name = "Car Model")]
         public string CarModel { get; init; }
 
         [Range(PartPriceMinValue, PartPriceMaxValue)]
@@ -34,11 +34,14 @@
         public string Description { get; init; }
 
         [Required]
-        [Display(Name = "Image URL")]
         [Url]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; init; }
 
         [Range(PartYearMinValue, PartYearMaxValue)]
         public int Year { get; init; }
+
+        [Display(Name ="Is your part used (secondhand)?")]
+        public bool IsUsed { get; set; }
     }
 }

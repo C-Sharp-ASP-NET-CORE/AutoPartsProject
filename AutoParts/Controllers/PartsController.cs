@@ -44,7 +44,8 @@ namespace AutoParts.Controllers
                 Price = part.Price,
                 Description = part.Description,
                 ImageUrl = part.ImageUrl,
-                Year = part.Year
+                Year = part.Year,
+                IsUsed = part.IsUsed
             };
 
             this.data.Parts.Add(myPart);

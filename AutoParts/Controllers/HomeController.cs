@@ -1,12 +1,16 @@
 ﻿namespace AutoParts.Controllers
 {
+    using AutoParts.Core.Constants;
     using AutoParts.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     public class HomeController : Controller
     {
         public IActionResult Index()
-            =>View();
+        {
+            ViewData[MessageConstant.SuccessMessage] = "Welcome";
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

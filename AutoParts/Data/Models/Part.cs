@@ -25,5 +25,6 @@
         public string ImageUrl { get; set; }
         [Range(PartYearMinValue,PartYearMaxValue)]
         public int Year { get; set; }
+        public bool IsUsed { get; set; }
     }
 }
