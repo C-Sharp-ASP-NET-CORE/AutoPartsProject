@@ -1,7 +1,7 @@
 ﻿namespace AutoParts.Extensions
 {
-    using AutoParts.Data;
-    using AutoParts.Data.Models;
+    using AutoParts.Infrastructure.Data;
+    using AutoParts.Infrastructure.Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;

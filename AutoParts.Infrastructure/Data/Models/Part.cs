@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Data.Models
+﻿namespace AutoParts.Infrastructure.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
     using static DataConstants;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AutoParts.Data.Migrations
+namespace AutoParts.Infrastructure.Data.Migrations
 {
     public partial class PartAndCategoryTables : Migration
     {

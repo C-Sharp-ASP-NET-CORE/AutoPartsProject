@@ -1,8 +1,7 @@
-﻿
-namespace AutoParts.Controllers
+﻿namespace AutoParts.Controllers
 {
-    using AutoParts.Data;
-    using AutoParts.Data.Models;
+    using AutoParts.Infrastructure.Data;
+    using AutoParts.Infrastructure.Data.Models;
     using AutoParts.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;

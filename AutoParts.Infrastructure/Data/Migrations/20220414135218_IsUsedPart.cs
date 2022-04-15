@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AutoParts.Data.Migrations
+﻿namespace AutoParts.Infrastructure.Data.Migrations
 {
+using Microsoft.EntityFrameworkCore.Migrations;
     public partial class IsUsedPart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Data
+﻿namespace AutoParts.Infrastructure.Data
 {
     public class DataConstants
     {

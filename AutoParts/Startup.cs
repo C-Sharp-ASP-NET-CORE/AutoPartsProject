@@ -1,7 +1,7 @@
 namespace AutoParts
 {
-    using AutoParts.Data;
     using AutoParts.Extensions;
+    using AutoParts.Infrastructure.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;

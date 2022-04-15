@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Data.Models
+﻿namespace AutoParts.Infrastructure.Data.Models
 {
     using System.Collections.Generic;
     public class Category

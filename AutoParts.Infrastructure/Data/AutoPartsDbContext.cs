@@ -1,6 +1,6 @@
-﻿namespace AutoParts.Data
+﻿namespace AutoParts.Infrastructure.Data
 {
-    using AutoParts.Data.Models;
+    using AutoParts.Infrastructure.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     public class AutoPartsDbContext : IdentityDbContext

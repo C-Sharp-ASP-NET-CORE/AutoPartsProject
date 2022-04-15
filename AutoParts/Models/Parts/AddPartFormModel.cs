@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using static Data.DataConstants;
+    using static Infrastructure.Data.DataConstants;
     public class AddPartFormModel
     {
         [Display(Name = "Category")]
