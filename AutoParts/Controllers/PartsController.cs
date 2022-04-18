@@ -16,7 +16,7 @@
 
         public IActionResult Add()
             => View(new AddPartFormModel
-            { 
+            {
                 Categories = this.GetPartCategories()
             });
 
@@ -50,7 +50,61 @@
             this.data.Parts.Add(myPart);
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult All([FromQuery]AllPartsQueryModel query)
+        {
+
+            var partsQuery = this.data.Parts.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Brand))
+            {
+                partsQuery = partsQuery.Where(p => p.CarBrand == query.Brand);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                partsQuery = partsQuery
+                                    .Where(p =>
+                                    p.Category.Name.ToLower().Contains(query.SearchTerm.ToLower())
+                                    || (p.CarBrand + " " + p.CarModel).ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            var totalParts = partsQuery.Count();
+
+            partsQuery = query.Sorting switch
+            {
+                PartsSorting.Year => partsQuery.OrderByDescending(p => p.Year),
+                PartsSorting.Price => partsQuery.OrderByDescending(p => p.Price),
+                PartsSorting.BrandAndMode => partsQuery.OrderBy(p => p.CarBrand).ThenBy(p=>p.CarModel),
+                PartsSorting.DateCreated or _ => partsQuery.OrderByDescending(p => p.Id)
+            };
+
+            var parts = partsQuery
+                                .Select(p => new PartListingViewModel
+                                {
+                                    Id = p.Id,
+                                    Category = p.Category.Name,
+                                    CarBrand = p.CarBrand,
+                                    CarModel = p.CarModel,
+                                    Price= p.Price,
+                                    Year = p.Year,
+                                    ImageUrl = p.ImageUrl
+                                })
+                                .ToList();
+
+            var carBrands = this.data.Parts
+                                        .Select(p => p.CarBrand)
+                                        .Distinct()
+                                        .OrderBy(br=>br)
+                                        .OrderBy(br => br)
+                                        .ToList();
+
+            query.Brands = carBrands;
+            query.Parts = parts;
+
+            return View(query);
         }
 
         private IEnumerable<PartCategoryViewModel> GetPartCategories()
