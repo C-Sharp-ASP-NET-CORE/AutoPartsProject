@@ -1,10 +1,9 @@
 ﻿namespace AutoParts.Controllers
 {
     using AutoParts.Core.Constants;
+    using AutoParts.Core.Models.Home;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Models;
-    using AutoParts.Models.Home;
-    using AutoParts.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Models.Home
+﻿namespace AutoParts.Core.Models.Home
 {
     using System.Collections.Generic;
 

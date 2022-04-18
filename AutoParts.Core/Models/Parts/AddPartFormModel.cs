@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Models.Parts
+﻿namespace AutoParts.Core.Models.Parts
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -32,6 +32,11 @@
         [StringLength(PartDescriptionMaxLength,
             MinimumLength = PartDescriptionMinLength)]
         public string Description { get; init; }
+
+        [Required]
+        [StringLength(PartSerialNumberMaxLength,
+            MinimumLength = PartSerialNumberMinLength)]
+        public string SerialNumber { get; set; }
 
         [Required]
         [Url]

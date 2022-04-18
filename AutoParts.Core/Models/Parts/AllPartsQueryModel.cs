@@ -1,11 +1,11 @@
-﻿namespace AutoParts.Models.Parts
+﻿namespace AutoParts.Core.Models.Parts
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class AllPartsQueryModel
     {
-        public const int PartsPerPage = 6;
+        public const int PartsPerPage = 8;
         public int CurrentPage { get; init; } = 1;
         public int TotalParts { get; set; }
         public string Brand { get; init; }

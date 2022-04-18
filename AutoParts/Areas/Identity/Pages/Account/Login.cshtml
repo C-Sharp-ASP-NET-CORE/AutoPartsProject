@@ -54,7 +54,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                             <button id="login-submit" type="submit" class="btn btn-primary btn-block mt-3">Log in</button>
+                            <button id="login-submit" type="submit" class="btn btn-primary btn-block mt-3">Log in</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -62,19 +62,41 @@
 
                 @*<div class="social-auth-links text-center mt-2 mb-3">
                     <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
                     </a>
                     <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
                     </a>
+                    </div>*@
+                    <!-- /.social-auth-links -->
+
+                <div class="col-md-6 col-md-offset-2">
+                    <section>
+                        <h4>Use another service to log in.</h4>
+                        <hr />
+                        @{
+                            if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                            {
+                                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                    <div>
+                                        <p>
+                                            @foreach (var provider in Model.ExternalLogins)
+                                            {
+                                                <button type="submit" class="btn btn-block btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                            }
+                                        </p>
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </section>
                 </div>
-                <!-- /.social-auth-links -->*@
 
                 <p class="mb-1">
                     <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                 </p>
                 <p class="mb-0">
-                     <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                 </p>
             </div>
             <!-- /.card-body -->
@@ -91,35 +113,3 @@
     <partial name="_ValidationScriptsPartial" />
 </body>
 </html>
-
-
-   @*<div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>*@

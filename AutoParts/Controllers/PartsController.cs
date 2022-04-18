@@ -1,8 +1,9 @@
 ﻿namespace AutoParts.Controllers
 {
+    using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Models;
-    using AutoParts.Models.Parts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,6 +15,7 @@
         public PartsController(AutoPartsDbContext data)
              => this.data = data;
 
+        [Authorize]
         public IActionResult Add()
             => View(new AddPartFormModel
             {
@@ -21,6 +23,7 @@
             });
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddPartFormModel part)
         {
             if (!this.data.Categories.Any(c => c.Id == part.CategoryId))
@@ -42,6 +45,7 @@
                 CarModel = part.CarModel,
                 Price = part.Price,
                 Description = part.Description,
+                SerialNumber = part.SerialNumber,
                 ImageUrl = part.ImageUrl,
                 Year = part.Year,
                 IsUsed = part.IsUsed

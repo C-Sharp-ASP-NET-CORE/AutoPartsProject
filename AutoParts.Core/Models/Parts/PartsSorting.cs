@@ -1,4 +1,4 @@
-﻿namespace AutoParts.Models.Parts
+﻿namespace AutoParts.Core.Models.Parts
 {
     public enum PartsSorting
     {
