@@ -53,7 +53,7 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All([FromQuery]AllPartsQueryModel query)
+        public IActionResult All([FromQuery] AllPartsQueryModel query)
         {
 
             var partsQuery = this.data.Parts.AsQueryable();
@@ -77,18 +77,20 @@
             {
                 PartsSorting.Year => partsQuery.OrderByDescending(p => p.Year),
                 PartsSorting.Price => partsQuery.OrderByDescending(p => p.Price),
-                PartsSorting.BrandAndMode => partsQuery.OrderBy(p => p.CarBrand).ThenBy(p=>p.CarModel),
+                PartsSorting.BrandAndMode => partsQuery.OrderBy(p => p.CarBrand).ThenBy(p => p.CarModel),
                 PartsSorting.DateCreated or _ => partsQuery.OrderByDescending(p => p.Id)
             };
 
             var parts = partsQuery
+                                .Skip((query.CurrentPage - 1) * AllPartsQueryModel.PartsPerPage)
+                                .Take(AllPartsQueryModel.PartsPerPage)
                                 .Select(p => new PartListingViewModel
                                 {
                                     Id = p.Id,
                                     Category = p.Category.Name,
                                     CarBrand = p.CarBrand,
                                     CarModel = p.CarModel,
-                                    Price= p.Price,
+                                    Price = p.Price,
                                     Year = p.Year,
                                     ImageUrl = p.ImageUrl
                                 })
@@ -97,10 +99,11 @@
             var carBrands = this.data.Parts
                                         .Select(p => p.CarBrand)
                                         .Distinct()
-                                        .OrderBy(br=>br)
+                                        .OrderBy(br => br)
                                         .OrderBy(br => br)
                                         .ToList();
 
+            query.TotalParts = totalParts;
             query.Brands = carBrands;
             query.Parts = parts;
 
