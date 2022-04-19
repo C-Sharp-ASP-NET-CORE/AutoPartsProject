@@ -14,6 +14,6 @@
         [Display(Name = "Search")]
         public string SearchTerm { get; init; }
         public PartsSorting Sorting { get; set; }
-        public IEnumerable<PartListingViewModel> Parts { get; set; }
+        public IEnumerable<PartServiceModel> Parts { get; set; }
     }
 }

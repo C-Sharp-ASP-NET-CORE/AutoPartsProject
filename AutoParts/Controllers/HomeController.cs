@@ -1,6 +1,5 @@
 ﻿namespace AutoParts.Controllers
 {
-    using AutoParts.Core.Constants;
     using AutoParts.Core.Models.Home;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Models;
@@ -17,7 +16,7 @@
 
         public IActionResult Index()
         {
-            ViewData[MessageConstant.SuccessMessage] = "Welcome";
+            //ViewData[MessageConstant.SuccessMessage] = "Welcome";
 
             var totalParts = this.data.Parts.Count();
 

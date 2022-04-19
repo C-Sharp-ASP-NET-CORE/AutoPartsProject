@@ -1,4 +1,11 @@
-﻿<nav class="mt-2">
+﻿@using AutoParts.Core.Contract
+@using AutoParts.Infrastructure.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IDealerService Dealers
+
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
@@ -7,14 +14,34 @@
                 <img src="~/img/home.png" alt="Home Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
                 <p>Home</p>
             </a>
-             <a href="/Parts/Add" class="brand-link">
+            <a href="/Parts/Add" class="brand-link">
                 <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
                 <p>Add Part</p>
             </a>
             <a href="/Parts/All" class="brand-link">
-            <img src="~/img/all.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-            <span class="brand-text font-weight-light">All Parts</span>
-        </a>
+                <img src="~/img/all.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                <span class="brand-text font-weight-light">All Parts</span>
+            </a>
+
+            @{
+                var userId = User.Id();
+                var userIsDealer = Dealers.IsDealer(userId);
+            }
+
+            @if (userIsDealer)
+            {
+                 <a href="/Parts/Mine" class="brand-link">
+                    <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                    <p>My Parts</p>
+                </a>
+            }
+            else
+            {
+                <a href="/Parts/Add" class="brand-link">
+                        <img src="~/img/dealer.png" alt="Dealer Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                        <p>Become Dealer</p>
+                    </a>
+            }
         </li>
     </ul>
 </nav>
@@ -23,6 +50,6 @@
 @*<a href="/" class="nav-link">
     <i class="fas fa-home"></i>
     <p>
-        Home
+    Home
     </p>
-</a>*@
+    </a>*@

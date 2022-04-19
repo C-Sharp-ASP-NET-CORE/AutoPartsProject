@@ -5,6 +5,6 @@
     {
         public int Id { get; init; }
         public string Name { get; set; }
-        public IEnumerable<Part> Pars { get; set; } = new List<Part>();
+        public IEnumerable<Part> Parts { get; set; } = new List<Part>();
     }
 }

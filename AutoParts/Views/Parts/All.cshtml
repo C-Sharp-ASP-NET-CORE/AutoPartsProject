@@ -37,22 +37,12 @@
     <input type="submit" class="btn btn-primary d-none">
 </form>
 
-<div class="row">
-    @foreach (var part in Model.Parts)
-    {
-        <div class="col-md-3">
-            <div class="card mb-3" style="width: 18rem;">
-                <img class="card-img-top" src="@part.ImageUrl" alt="@part.CarBrand @part.CarModel - @part.Year (@part.Category): @part.Price">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-center">
-                        @part.Category for @part.CarBrand @part.CarModel (@part.Year)
-                        <br>@part.Price lv.
-                    </h5>
-                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id" class="btn btn-primary">View More</a>
-                </div>
-            </div>
-        </div>
-    }
+@if (!Model.Parts.Any())
+{
+    <h2 class="text-center">No parts found by the given criteria!</h2>
+}
+
+<partial name="_PartsPartial" model="@Model.Parts" />
 </div>
 
 

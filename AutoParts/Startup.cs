@@ -1,10 +1,12 @@
 namespace AutoParts
 {
+    using AutoParts.Core.Contract;
     using AutoParts.Core.Contracts;
     using AutoParts.Core.Services;
     using AutoParts.Extensions;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Identity;
+    using AutoParts.Infrastructure.Data.Models;
     using AutoParts.Infrastructure.Data.Repositories;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -26,7 +28,9 @@ namespace AutoParts
         {
             services
                     .AddScoped<IApplicationDbRepository, ApplicationDbRepository>()
-                    .AddScoped<IOrderService, OrderService>()
+                    .AddScoped<IDealerService, DealerService>()
+                    .AddScoped<IPartService, PartService>()
+                    //.AddScoped<IUserService, UserService>()
                     .AddDbContext<AutoPartsDbContext>(options => options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -40,7 +44,7 @@ namespace AutoParts
      });
 
             services
-                    .AddDefaultIdentity<IdentityUser>(options =>
+                    .AddDefaultIdentity<User>(options =>
                     {
                         options.SignIn.RequireConfirmedAccount = false;
                         options.Password.RequireUppercase = false;

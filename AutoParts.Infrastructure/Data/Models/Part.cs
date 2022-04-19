@@ -30,10 +30,12 @@
         [Required]
         public string ImageUrl { get; set; }
 
-        public IList<Rack> Racks { get; set; } = new List<Rack>();
+        public bool IsUsed { get; set; }
 
         [Range(PartYearMinValue,PartYearMaxValue)]
         public int Year { get; set; }
-        public bool IsUsed { get; set; }
+        public int DealerId { get; init; }
+
+        public Dealer Dealer { get; init; }
     }
 }

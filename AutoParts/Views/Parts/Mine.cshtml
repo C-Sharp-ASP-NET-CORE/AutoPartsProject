@@ -1,0 +1,12 @@
+﻿@model IEnumerable<PartServiceModel>
+
+@{
+    ViewData["Title"] = "My Parts";
+}
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">You don't have any parts yet!</h2>
+}
+
+<partial name="_PartsPartial" model="@Model" />

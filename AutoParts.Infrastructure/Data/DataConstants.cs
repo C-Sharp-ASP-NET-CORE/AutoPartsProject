@@ -17,6 +17,16 @@
         public const int PartYearMinValue = 1950;
         public const int PartYearMaxValue = 2100;
 
+        public const int DealerNameMaxLength = 30;
+        public const int DealerNameMinLength = 4;
+        public const int DealerPhoneNumberMaxLength = 12;
+        public const int DealerPhoneNumberMinLength = 6;
+
+        public const int UserFullNameMinLength = 3;
+        public const int UserFullNameMaxLength = 50;
+        public const int UserPasswordMinLength = 6;
+        public const int UserPasswordMaxLength = 50;
+
 
         public const int ContragentCustomerNumberMinLength = 2;
         public const int ContragentCustomerNumberMaxLength = 20;
