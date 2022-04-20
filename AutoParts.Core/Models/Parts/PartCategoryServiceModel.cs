@@ -1,6 +1,6 @@
 ﻿namespace AutoParts.Core.Models.Parts
 {
-    public class PartCategoryViewModel
+    public class PartCategoryServiceModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

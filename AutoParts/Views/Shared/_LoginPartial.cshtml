@@ -1,7 +1,6 @@
-﻿@using AutoParts.Infrastructure.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
+﻿@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IDealerService Dealers
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -13,4 +12,37 @@
             <a href="#" class="d-block">@User.Identity?.Name</a>
         </div>
     </div>
+
+    <li class="nav-item">
+            <a href="/" class="brand-link">
+                <img src="~/img/home.png" alt="Home Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                <p>Home</p>
+            </a>
+            <a href="/Parts/All" class="brand-link">
+                <img src="~/img/all.png" alt="All Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                <span class="brand-text font-weight-light">All Parts</span>
+            </a>
+            <a href="/Parts/Mine" class="brand-link">
+            <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>My Parts</p>
+        </a>
+        </li>
+
+    var userId = User.Id();
+    var userIsDealer = Dealers.IsDealer(userId);
+
+    @if (userIsDealer)
+    {
+        <a href="/Parts/Add" class="brand-link">
+                <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+                <p>Add Part</p>
+            </a>
+    }
+    else
+    {
+        <a href="/Parts/Add" class="brand-link">
+            <img src="~/img/dealer.png" alt="Dealer Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>Become Dealer</p>
+        </a>
+    }
 }

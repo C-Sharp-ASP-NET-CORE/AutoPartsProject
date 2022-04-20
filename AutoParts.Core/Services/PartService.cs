@@ -10,12 +10,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class PartService:IPartService
+    public class PartService : IPartService
     {
         private readonly AutoPartsDbContext data;
 
         public PartService(AutoPartsDbContext data)
-        =>this.data = data;
+        => this.data = data;
 
         public PartQueryServiceModel All(
             string brand,
@@ -55,10 +55,10 @@
                                 .Take(partsPerPage));
 
             return new PartQueryServiceModel
-            { 
-                TotalParts= totalParts,
-                CurrentPage= currentPage,
-                PartsPerPage= partsPerPage,
+            {
+                TotalParts = totalParts,
+                CurrentPage = currentPage,
+                PartsPerPage = partsPerPage,
                 Parts = parts
             };
         }
@@ -70,17 +70,107 @@
                  .OrderBy(br => br)
                  .ToList();
 
+        public IEnumerable<PartCategoryServiceModel> AllPartCategories()
+                     => this.data.Categories
+                         .Select(c => new PartCategoryServiceModel
+                         {
+                             Id = c.Id,
+                             Name = c.Name
+                         })
+                         .ToList();
+
         public IEnumerable<PartServiceModel> ByUser(string userId)
-              => this.GetParts(this.data
+                     => this.GetParts(this.data
                                 .Parts
                                 .Where(p => p.Dealer.UserId == userId));
+
+        public bool CategoryExists(int categoryId)
+                     => this.data.Categories
+                                .Any(c => c.Id == categoryId);
+
+        public int Create(
+                    int categoryId, string manufacturer,
+                    string carBrand, string carModel,
+                    decimal price, string description,
+                    string serialNumber, string imageUrl,
+                    int year, bool isUsed, int dealerId)
+        {
+
+            var myPart = new Part
+            {
+                CategoryId = categoryId,
+                Manufacturer = manufacturer,
+                CarBrand = carBrand,
+                CarModel = carModel,
+                Price = price,
+                Description = description,
+                SerialNumber = serialNumber,
+                ImageUrl = imageUrl,
+                Year = year,
+                IsUsed = isUsed,
+                DealerId = dealerId
+            };
+
+            this.data.Parts.Add(myPart);
+            this.data.SaveChanges();
+
+            return myPart.Id;
+        }
+
+        public PartDetailsServiceModel Details(int id)
+                     => this.data.Parts
+                                    .Where(p => p.Id == id)
+                                    .Select(p => new PartDetailsServiceModel
+                                    {
+                                        Id = p.Id,
+                                        CategoryName = p.Category.Name,
+                                        CarBrand = p.CarBrand,
+                                        CarModel = p.CarModel,
+                                        Price = p.Price,
+                                        Year = p.Year,
+                                        Description = p.Description,
+                                        ImageUrl = p.ImageUrl,
+                                        DealerId = p.DealerId,
+                                        DealerName = p.Dealer.Name,
+                                        UserId = p.Dealer.UserId
+                                    }).FirstOrDefault();
+
+        public bool Edit(
+                    int id, int categoryId, string manufacturer,
+                    string carBrand, string carModel,
+                    decimal price, string description,
+                    string serialNumber, string imageUrl,
+                    int year, bool isUsed, int dealerId)
+        {
+            var myPart = this.data.Parts.Find(id);
+
+            if (myPart.DealerId != dealerId)
+            {
+                return false;
+            }
+
+            myPart.CategoryId = categoryId;
+            myPart.Manufacturer = manufacturer;
+            myPart.CarBrand = carBrand;
+            myPart.CarModel = carModel;
+            myPart.Price = price;
+            myPart.Description = description;
+            myPart.SerialNumber = serialNumber;
+            myPart.ImageUrl = imageUrl;
+            myPart.Year = year;
+            myPart.IsUsed = isUsed;
+
+            this.data.SaveChanges();
+
+            return true;
+        }
 
         private IEnumerable<PartServiceModel> GetParts(IQueryable<Part> partQuery)
                      => partQuery
                                 .Select(p => new PartServiceModel
                                 {
                                     Id = p.Id,
-                                    Category = p.Category.Name,
+                                    CategoryName = p.Category.Name,
                                     CarBrand = p.CarBrand,
                                     CarModel = p.CarModel,
                                     Price = p.Price,

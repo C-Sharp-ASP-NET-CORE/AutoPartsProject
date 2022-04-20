@@ -13,7 +13,40 @@
             int partsPerPage
             );
 
+        int Create(
+                int categoryId,
+                string manufacturer,
+                string carBrand,
+                string carModel,
+                decimal price,
+                string description,
+                string serialNumber,
+                string imageUrl,
+                int year,
+                bool isUsed,
+                int dealerId);
+
+        bool Edit(
+               int id,
+               int categoryId,
+               string manufacturer,
+               string carBrand,
+               string carModel,
+               decimal price,
+               string description,
+               string serialNumber,
+               string imageUrl,
+               int year,
+               bool isUsed,
+               int dealerId);
+
+        PartDetailsServiceModel Details(int id);
+
+
         IEnumerable<PartServiceModel> ByUser(string userId);
         IEnumerable<string> AllPartBrands();
+        IEnumerable<PartCategoryServiceModel> AllPartCategories();
+
+        bool CategoryExists(int categoryId);
     }
 }

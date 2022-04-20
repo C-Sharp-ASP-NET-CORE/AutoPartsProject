@@ -12,75 +12,66 @@
 
     public class PartsController : Controller
     {
-        private readonly AutoPartsDbContext data;
+        private readonly IDealerService dealers;
         private readonly IPartService parts;
 
         public PartsController(
-            AutoPartsDbContext data,
+            IDealerService dealers,
              IPartService parts)
         {
-            this.data = data;
             this.parts = parts;
+            this.dealers = dealers;
         }
 
 
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsDealer())
+            if (!this.dealers.IsDealer(this.User.Id()))
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
 
-            return View(new AddPartFormModel
+            return View(new PartFormModel
             {
-                Categories = this.GetPartCategories()
+                Categories = this.parts.AllPartCategories()
             });
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddPartFormModel part)
+        public IActionResult Add(PartFormModel part)
         {
-            var dealerId = this.data
-                                .Dealers
-                                .Where(d => d.UserId == this.User.Id())
-                                .Select(d => d.Id)
-                                .FirstOrDefault();
+            var dealerId = this.dealers.IdByUser(User.Id());
 
             if (dealerId == 0)
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
 
-            if (!this.data.Categories.Any(c => c.Id == part.CategoryId))
+            if (!this.parts.CategoryExists(part.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(part.CategoryId), "Category does not exist");
             }
 
             if (!ModelState.IsValid)
             {
-                part.Categories = this.GetPartCategories();
+                part.Categories = this.parts.AllPartCategories();
                 return View(part);
             }
 
-            var myPart = new Part
-            {
-                CategoryId = part.CategoryId,
-                Manufacturer = part.Manufacturer,
-                CarBrand = part.CarBrand,
-                CarModel = part.CarModel,
-                Price = part.Price,
-                Description = part.Description,
-                SerialNumber = part.SerialNumber,
-                ImageUrl = part.ImageUrl,
-                Year = part.Year,
-                IsUsed = part.IsUsed,
-                DealerId = dealerId
-            };
-
-            this.data.Parts.Add(myPart);
-            this.data.SaveChanges();
+            this.parts.Create(
+                part.CategoryId,
+                part.Manufacturer,
+                part.CarBrand,
+                part.CarModel,
+                part.Price,
+                part.Description,
+                part.SerialNumber,
+                part.ImageUrl,
+                part.Year,
+                part.IsUsed,
+                dealerId);
 
             return RedirectToAction(nameof(All));
         }
@@ -111,18 +102,81 @@
             return View(myParts);
         }
 
-        private IEnumerable<PartCategoryViewModel> GetPartCategories()
-           => this.data.Categories
-                 .Select(c => new PartCategoryViewModel
-                 {
-                     Id = c.Id,
-                     Name = c.Name
-                 })
-                 .ToList();
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var userId = this.User.Id();
 
-        private bool UserIsDealer()
-            => this.data
-                    .Dealers
-                    .Any(d => d.UserId == this.User.Id());  
+            if (!this.dealers.IsDealer(this.User.Id()))
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
+            }
+
+            var part = this.parts.Details(id);
+
+            if (part.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new PartFormModel
+            {
+                CategoryId = part.CategoryId,
+                Manufacturer = part.Manufacturer,
+                CarBrand = part.CarBrand,
+                CarModel = part.CarModel,
+                Price = part.Price,
+                Description = part.Description,
+                SerialNumber = part.SerialNumber,
+                ImageUrl = part.ImageUrl,
+                Year = part.Year,
+                IsUsed = part.IsUsed,
+                Categories = this.parts.AllPartCategories()
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(int id, PartFormModel part)
+        {
+            var dealerId = this.dealers.IdByUser(User.Id());
+
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
+            }
+
+            if (!this.parts.CategoryExists(part.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(part.CategoryId), "Category does not exist");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                part.Categories = this.parts.AllPartCategories();
+                return View(part);
+            }
+
+            var partIsEdited = this.parts.Edit(
+                id,
+                part.CategoryId,
+                part.Manufacturer,
+                part.CarBrand,
+                part.CarModel,
+                part.Price,
+                part.Description,
+                part.SerialNumber,
+                part.ImageUrl,
+                part.Year,
+                part.IsUsed,
+                dealerId);
+
+            if (!partIsEdited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

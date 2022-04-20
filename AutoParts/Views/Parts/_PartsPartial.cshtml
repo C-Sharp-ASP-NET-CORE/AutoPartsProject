@@ -5,13 +5,18 @@
     {
         <div class="col-md-3">
             <div class="card mb-3" style="width: 18rem;">
-                <img class="card-img-top" src="@part.ImageUrl" alt="@part.CarBrand @part.CarModel - @part.Year (@part.Category): @part.Price">
+                <img class="card-img-top" src="@part.ImageUrl" alt="@part.CarBrand @part.CarModel - @part.Year (@part.CategoryName): @part.Price">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">
-                        @part.Category for @part.CarBrand @part.CarModel (@part.Year)
+                        @part.CategoryName for @part.CarBrand @part.CarModel (@part.Year)
                         <br>@part.Price lv.
                     </h5>
-                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id" class="btn btn-primary">View More</a>
+                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id" class="btn btn-primary">View</a>
+                    @if (ViewBag.AllowPartEdit==true)
+                   {
+                       <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id" class="btn btn-warning">Edit</a>
+                       <a asp-controller="Parts" asp-action="Delete" asp-route-id="@part.Id" class="btn btn-danger">Delete</a>
+                   }
                 </div>
             </div>
         </div>

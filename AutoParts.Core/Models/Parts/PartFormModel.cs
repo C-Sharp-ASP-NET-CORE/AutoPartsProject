@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Infrastructure.Data.DataConstants;
-    public class AddPartFormModel
+    public class PartFormModel
     {
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
-        public IEnumerable<PartCategoryViewModel> Categories { get; set; }
+        public IEnumerable<PartCategoryServiceModel> Categories { get; set; }
 
         [Required]
         [StringLength(PartManufacturerMaxLength,
