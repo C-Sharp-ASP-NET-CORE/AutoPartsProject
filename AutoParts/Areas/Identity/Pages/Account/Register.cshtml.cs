@@ -1,21 +1,12 @@
 ﻿namespace AutoParts.Areas.Identity.Pages.Account
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
-    using System.Threading.Tasks;
     using AutoParts.Infrastructure.Data.Models;
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.AspNetCore.WebUtilities;
-    using Microsoft.Extensions.Logging;
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
     using static Infrastructure.Data.DataConstants;
 
     [AllowAnonymous]
@@ -39,13 +30,13 @@
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-
             [Display(Name = "Full Name")]
             [StringLength(UserFullNameMaxLength, MinimumLength = UserFullNameMinLength)]
             public string FullName { get; set; }
+
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
 
             [Required]
             [StringLength(UserPasswordMinLength, MinimumLength = UserPasswordMinLength)]

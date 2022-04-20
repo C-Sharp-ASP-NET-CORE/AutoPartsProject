@@ -27,7 +27,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.dealers.IsDealer(this.User.Id()))
+            if (!this.dealers.IsDealer(this.User.Id()) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
@@ -44,7 +44,7 @@
         {
             var dealerId = this.dealers.IdByUser(User.Id());
 
-            if (dealerId == 0)
+            if (dealerId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
@@ -107,14 +107,14 @@
         {
             var userId = this.User.Id();
 
-            if (!this.dealers.IsDealer(this.User.Id()))
+            if (!this.dealers.IsDealer(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
 
             var part = this.parts.Details(id);
 
-            if (part.UserId != userId)
+            if (part.UserId != userId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -141,7 +141,7 @@
         {
             var dealerId = this.dealers.IdByUser(User.Id());
 
-            if (dealerId == 0)
+            if (dealerId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }

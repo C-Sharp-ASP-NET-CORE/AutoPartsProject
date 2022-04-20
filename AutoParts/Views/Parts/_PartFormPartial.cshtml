@@ -6,6 +6,7 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="CategoryId"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <select asp-for="CategoryId" class="form-control">
                     @foreach (var category in Model.Categories)
                    {
@@ -15,41 +16,49 @@
             </div>
             <div class="form-group">
                 <label asp-for="Manufacturer"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="Manufacturer" class="form-control" placeholder="Germany Cars, Parts OOD, etc.">
                 <span asp-validation-for="Manufacturer" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CarBrand"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="CarBrand" class="form-control" placeholder="Mercedes, Audi, etc.">
                 <span asp-validation-for="CarBrand" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CarModel"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="CarModel" class="form-control" placeholder="W211, A5, E90 etc.">
                 <span asp-validation-for="CarModel" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="Price" class="form-control" placeholder="leva">
                 <span asp-validation-for="Price" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <textarea asp-for="Description" rows="4" class="form-control" placeholder="Describe your product here"></textarea>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialNumber"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="SerialNumber" class="form-control" placeholder="XF45T etc.">
                 <span asp-validation-for="SerialNumber" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="ImageUrl" class="form-control" placeholder="Your URL here...">
                 <span asp-validation-for="ImageUrl" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Year"></label>
+                <p style="display:inline" class="text-danger">*</p>
                 <input asp-for="Year" class="form-control" placeholder="@DateTime.UtcNow.Year">
                 <span asp-validation-for="Year" class="small text-danger"></span>
             </div>

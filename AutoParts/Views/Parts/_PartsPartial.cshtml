@@ -12,7 +12,7 @@
                         <br>@part.Price lv.
                     </h5>
                     <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id" class="btn btn-primary">View</a>
-                    @if (ViewBag.AllowPartEdit==true)
+                    @if (ViewBag.AllowPartEdit==true || User.IsAdmin())
                    {
                        <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id" class="btn btn-warning">Edit</a>
                        <a asp-controller="Parts" asp-action="Delete" asp-route-id="@part.Id" class="btn btn-danger">Delete</a>

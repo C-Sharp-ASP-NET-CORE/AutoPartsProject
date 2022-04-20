@@ -1,11 +1,9 @@
 namespace AutoParts
 {
     using AutoParts.Core.Contract;
-    using AutoParts.Core.Contracts;
     using AutoParts.Core.Services;
     using AutoParts.Extensions;
     using AutoParts.Infrastructure.Data;
-    using AutoParts.Infrastructure.Data.Identity;
     using AutoParts.Infrastructure.Data.Models;
     using AutoParts.Infrastructure.Data.Repositories;
     using Microsoft.AspNetCore.Builder;
@@ -52,6 +50,7 @@ namespace AutoParts
                         options.Password.RequireDigit = false;
                         options.Password.RequireNonAlphanumeric = false;
                     })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AutoPartsDbContext>();
 
             services.AddControllersWithViews(options =>

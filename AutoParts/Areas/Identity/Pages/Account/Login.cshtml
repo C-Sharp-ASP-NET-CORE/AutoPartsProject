@@ -29,17 +29,19 @@
                 <a href="/" class="h1"><b>Auto Parts</b></a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg"><b>Sign in to start your session</b></p>
 
                 <form id="account" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-floating">
                         <label asp-for="Input.Email"></label>
+                        <p style="display:inline" class="text-danger">*</p>
                         <input asp-for="Input.Email" class="form-control" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating">
                         <label asp-for="Input.Password"></label>
+                        <p style="display:inline" class="text-danger">*</p>
                         <input asp-for="Input.Password" class="form-control" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>

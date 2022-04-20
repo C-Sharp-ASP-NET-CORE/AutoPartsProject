@@ -26,19 +26,20 @@
             <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
             <p>My Parts</p>
         </a>
-        </li>
+    </li>
 
     var userId = User.Id();
     var userIsDealer = Dealers.IsDealer(userId);
+    var userIsAdmin = User.IsAdmin();
 
-    @if (userIsDealer)
+    @if (userIsDealer || userIsAdmin)
     {
         <a href="/Parts/Add" class="brand-link">
                 <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
                 <p>Add Part</p>
             </a>
     }
-    else
+    else if (!userIsAdmin)
     {
         <a href="/Parts/Add" class="brand-link">
             <img src="~/img/dealer.png" alt="Dealer Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
