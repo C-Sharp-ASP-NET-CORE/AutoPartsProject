@@ -41,8 +41,7 @@
                int dealerId);
 
         public PartDetailsServiceModel Details(int id);
-
-
+        IEnumerable<LatestPartServiceModel> Latest();
         IEnumerable<PartServiceModel> ByUser(string userId);
         IEnumerable<string> AllPartBrands();
         IEnumerable<PartCategoryServiceModel> AllPartCategories();

@@ -1,5 +1,6 @@
 ﻿namespace AutoParts.Controllers
 {
+    using AutoMapper;
     using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure;
@@ -14,13 +15,16 @@
     {
         private readonly IDealerService dealers;
         private readonly IPartService parts;
+        private readonly IMapper mapper;
 
         public PartsController(
             IDealerService dealers,
-             IPartService parts)
+             IPartService parts, 
+             IMapper mapper)
         {
             this.parts = parts;
             this.dealers = dealers;
+            this.mapper = mapper;
         }
 
 
@@ -119,20 +123,10 @@
                 return Unauthorized();
             }
 
-            return View(new PartFormModel
-            {
-                CategoryId = part.CategoryId,
-                Manufacturer = part.Manufacturer,
-                CarBrand = part.CarBrand,
-                CarModel = part.CarModel,
-                Price = part.Price,
-                Description = part.Description,
-                SerialNumber = part.SerialNumber,
-                ImageUrl = part.ImageUrl,
-                Year = part.Year,
-                IsUsed = part.IsUsed,
-                Categories = this.parts.AllPartCategories()
-            });
+            var partForm = this.mapper.Map<PartFormModel>(part);
+            partForm.Categories = this.parts.AllPartCategories();
+
+            return View(partForm);
         }
 
         [Authorize]

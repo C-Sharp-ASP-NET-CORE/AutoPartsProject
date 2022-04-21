@@ -54,7 +54,7 @@ namespace AutoParts
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AutoPartsDbContext>();
 
-            services.AddMemoryCache();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews(options =>
             {

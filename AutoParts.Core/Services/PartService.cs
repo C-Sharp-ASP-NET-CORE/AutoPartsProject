@@ -1,21 +1,30 @@
 ﻿namespace AutoParts.Core.Services
 {
     using AutoParts.Core.Contract;
+    using AutoParts.Core.Models.Home;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Models;
+    using AutoMapper.QueryableExtensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using AutoMapper;
 
     public class PartService : IPartService
     {
         private readonly AutoPartsDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public PartService(AutoPartsDbContext data)
-        => this.data = data;
+        public PartService(
+            AutoPartsDbContext data,
+            IMapper mapper)
+        { 
+            this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
+        }
 
         public PartQueryServiceModel All(
             string brand,
@@ -120,24 +129,8 @@
         public PartDetailsServiceModel Details(int id)
                      => this.data.Parts
                                     .Where(p => p.Id == id)
-                                    .Select(p => new PartDetailsServiceModel
-                                    {
-                                        Id = p.Id,
-                                        CategoryId = p.CategoryId,
-                                        CategoryName = p.Category.Name,
-                                        Manufacturer = p.Manufacturer,
-                                        CarBrand = p.CarBrand,
-                                        CarModel = p.CarModel,
-                                        Price = p.Price,
-                                        Year = p.Year,
-                                        Description = p.Description,
-                                        SerialNumber = p.SerialNumber,
-                                        ImageUrl = p.ImageUrl,
-                                        DealerId = p.DealerId,
-                                        DealerName = p.Dealer.Name,
-                                        UserId = p.Dealer.UserId,
-                                        IsUsed=p.IsUsed
-                                    }).FirstOrDefault();
+                                    .ProjectTo<PartDetailsServiceModel>(this.mapper)
+                                    .FirstOrDefault();
 
         public bool Edit(
                     int id, int categoryId, string manufacturer,
@@ -168,6 +161,23 @@
 
             return true;
         }
+
+        public IEnumerable<LatestPartServiceModel> Latest()
+                    => (IEnumerable<LatestPartServiceModel>)this.data
+                            .Parts
+                               .OrderByDescending(c => c.Id)
+                               .Select(p => new PartIndexViewModel
+                               {
+                                   Id = p.Id,
+                                   Category = p.Category.Name,
+                                   CarBrand = p.CarBrand,
+                                   CarModel = p.CarModel,
+                                   Price = p.Price,
+                                   Year = p.Year,
+                                   ImageUrl = p.ImageUrl
+                               })
+                               .Take(3)
+                               .ToList();
 
         private IEnumerable<PartServiceModel> GetParts(IQueryable<Part> partQuery)
                      => partQuery

@@ -1,11 +1,6 @@
 ﻿namespace AutoParts.Core.Models.Parts
 {
     using AutoParts.Core.Contract;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class LatestPartServiceModel : IPartModel
     {
@@ -18,5 +13,6 @@
         public string ImageUrl { get; init; }
 
         public int Year { get; init; }
+        public string Category { get; init; }
     }
 }

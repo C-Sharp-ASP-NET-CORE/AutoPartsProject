@@ -1,5 +1,7 @@
 ﻿namespace AutoParts.Controllers
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Home;
     using AutoParts.Infrastructure.Data;
@@ -8,17 +10,20 @@
     using System.Diagnostics;
     using System.Linq;
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly AutoPartsDbContext data;
         private readonly IStatisticsService statistics;
+        private readonly IConfigurationProvider mapper;
 
         public HomeController(
             AutoPartsDbContext data,
-            IStatisticsService statistics)
+            IStatisticsService statistics,
+            IMapper mapper)
         {
             this.data = data;
             this.statistics = statistics;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public IActionResult Index()
@@ -27,16 +32,7 @@
 
             var parts = this.data.Parts
                                .OrderByDescending(c => c.Id)
-                               .Select(p => new PartIndexViewModel
-                               {
-                                   Id = p.Id,
-                                   Category = p.Category.Name,
-                                   CarBrand = p.CarBrand,
-                                   CarModel = p.CarModel,
-                                   Price = p.Price,
-                                   Year = p.Year,
-                                   ImageUrl = p.ImageUrl
-                               })
+                               .ProjectTo<PartIndexViewModel>(this.mapper)
                                .Take(3)
                                .ToList();
 
