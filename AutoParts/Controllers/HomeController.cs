@@ -1,49 +1,49 @@
 ﻿namespace AutoParts.Controllers
 {
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using AutoParts.Core.Contract;
-    using AutoParts.Core.Models.Home;
-    using AutoParts.Infrastructure.Data;
+    using AutoParts.Core.Models.Parts;
     using AutoParts.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
     public class HomeController : Controller
     {
-        private readonly AutoPartsDbContext data;
-        private readonly IStatisticsService statistics;
-        private readonly IConfigurationProvider mapper;
+        private readonly IPartService parts;
+        private readonly IMemoryCache cache;
 
         public HomeController(
-            AutoPartsDbContext data,
-            IStatisticsService statistics,
-            IMapper mapper)
+            IPartService parts, 
+            IMemoryCache cache)
         {
-            this.data = data;
-            this.statistics = statistics;
-            this.mapper = mapper.ConfigurationProvider;
+            this.parts = parts;
+            this.cache = cache;
         }
 
         public IActionResult Index()
         {
             //ViewData[MessageConstant.SuccessMessage] = "Welcome";
 
-            var parts = this.data.Parts
-                               .OrderByDescending(c => c.Id)
-                               .ProjectTo<PartIndexViewModel>(this.mapper)
-                               .Take(3)
-                               .ToList();
+            const string latestPartsCacheKey = "LatestPartsCacheKey";
 
-            var totalStatistics = this.statistics.Total();
+            var latestParts = this.cache.Get<List<LatestPartServiceModel>>(latestPartsCacheKey);
 
-            return View(new IndexViewModel
+            if (latestParts==null)
             {
-                TotalParts = totalStatistics.TotalParts,
-                TotalUsers = totalStatistics.TotalUsers,
-                Parts = parts
-            });
+                latestParts = this.parts
+                                    .Latest()
+                                    .ToList();
+            }
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+            this.cache.Set(latestPartsCacheKey, latestParts, cacheOptions);
+
+            return View(latestParts);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -163,19 +163,10 @@
         }
 
         public IEnumerable<LatestPartServiceModel> Latest()
-                    => (IEnumerable<LatestPartServiceModel>)this.data
+                    => this.data
                             .Parts
                                .OrderByDescending(c => c.Id)
-                               .Select(p => new PartIndexViewModel
-                               {
-                                   Id = p.Id,
-                                   Category = p.Category.Name,
-                                   CarBrand = p.CarBrand,
-                                   CarModel = p.CarModel,
-                                   Price = p.Price,
-                                   Year = p.Year,
-                                   ImageUrl = p.ImageUrl
-                               })
+                               .ProjectTo<LatestPartServiceModel>(this.mapper)
                                .Take(3)
                                .ToList();
 

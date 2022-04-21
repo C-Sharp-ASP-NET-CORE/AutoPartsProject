@@ -11,6 +11,8 @@
         {
             this.CreateMap<PartDetailsServiceModel, PartFormModel>();
             this.CreateMap<Part, PartIndexViewModel>();
+            this.CreateMap<Part, LatestPartServiceModel>();
+
 
             this.CreateMap<Part, PartDetailsServiceModel>()
                 .ForMember(p => p.UserId, cfg => cfg.MapFrom(p => p.Dealer.UserId));
