@@ -1,5 +1,6 @@
 ﻿namespace AutoParts.Controllers
 {
+    using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Home;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Models;
@@ -10,15 +11,19 @@
     public class HomeController : BaseController
     {
         private readonly AutoPartsDbContext data;
+        private readonly IStatisticsService statistics;
 
-        public HomeController(AutoPartsDbContext data)
-             => this.data = data;
+        public HomeController(
+            AutoPartsDbContext data,
+            IStatisticsService statistics)
+        {
+            this.data = data;
+            this.statistics = statistics;
+        }
 
         public IActionResult Index()
         {
             //ViewData[MessageConstant.SuccessMessage] = "Welcome";
-
-            var totalParts = this.data.Parts.Count();
 
             var parts = this.data.Parts
                                .OrderByDescending(c => c.Id)
@@ -35,15 +40,18 @@
                                .Take(3)
                                .ToList();
 
+            var totalStatistics = this.statistics.Total();
+
             return View(new IndexViewModel
-                {
-                TotalParts = totalParts,
+            {
+                TotalParts = totalStatistics.TotalParts,
+                TotalUsers = totalStatistics.TotalUsers,
                 Parts = parts
             });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
-            =>View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
 }

@@ -40,7 +40,7 @@
                bool isUsed,
                int dealerId);
 
-        PartDetailsServiceModel Details(int id);
+        public PartDetailsServiceModel Details(int id);
 
 
         IEnumerable<PartServiceModel> ByUser(string userId);

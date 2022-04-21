@@ -171,10 +171,10 @@
                 part.IsUsed,
                 dealerId);
 
-            if (!partIsEdited)
-            {
-                return BadRequest();
-            }
+            //if (!partIsEdited)
+            //{
+            //    return BadRequest();
+            //}
 
             return RedirectToAction(nameof(All));
         }

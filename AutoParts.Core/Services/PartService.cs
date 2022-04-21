@@ -123,16 +123,20 @@
                                     .Select(p => new PartDetailsServiceModel
                                     {
                                         Id = p.Id,
+                                        CategoryId = p.CategoryId,
                                         CategoryName = p.Category.Name,
+                                        Manufacturer = p.Manufacturer,
                                         CarBrand = p.CarBrand,
                                         CarModel = p.CarModel,
                                         Price = p.Price,
                                         Year = p.Year,
                                         Description = p.Description,
+                                        SerialNumber = p.SerialNumber,
                                         ImageUrl = p.ImageUrl,
                                         DealerId = p.DealerId,
                                         DealerName = p.Dealer.Name,
-                                        UserId = p.Dealer.UserId
+                                        UserId = p.Dealer.UserId,
+                                        IsUsed=p.IsUsed
                                     }).FirstOrDefault();
 
         public bool Edit(

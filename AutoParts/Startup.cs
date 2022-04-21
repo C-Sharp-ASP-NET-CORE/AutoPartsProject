@@ -28,6 +28,7 @@ namespace AutoParts
                     .AddScoped<IApplicationDbRepository, ApplicationDbRepository>()
                     .AddScoped<IDealerService, DealerService>()
                     .AddScoped<IPartService, PartService>()
+                    .AddScoped<IStatisticsService, StatisticsService>()
                     //.AddScoped<IUserService, UserService>()
                     .AddDbContext<AutoPartsDbContext>(options => options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -52,6 +53,8 @@ namespace AutoParts
                     })
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AutoPartsDbContext>();
+
+            services.AddMemoryCache();
 
             services.AddControllersWithViews(options =>
             {
