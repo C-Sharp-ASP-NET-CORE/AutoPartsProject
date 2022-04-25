@@ -22,4 +22,8 @@
     <ProjectReference Include="..\AutoParts.Core\AutoParts.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>

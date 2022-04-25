@@ -38,7 +38,7 @@
                                 <img class="d-block w-100" src="@firstPart.ImageUrl" alt="@firstPart.Category">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@firstPart.Id">
+                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@firstPart.Id" asp-route-information="@firstPart.ToReadableURL()">
                                     @firstPart.CarBrand @firstPart.CarModel (@firstPart.Year)
                                         </a>
                                     </h5>
@@ -51,7 +51,7 @@
                                 <img class="d-block w-100" src="@secondPart.ImageUrl" alt="@secondPart.Category">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@secondPart.Id">
+                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@secondPart.Id" asp-route-information="@secondPart.ToReadableURL()">
                                     @secondPart.CarBrand @secondPart.CarModel (@secondPart.Year)
                                         </a>
                                     </h5>
@@ -64,7 +64,7 @@
                                 <img class="d-block w-100" src="@thirdPart.ImageUrl" alt="@thirdPart.Category">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@thirdPart.Id">
+                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@thirdPart.Id" asp-route-information="@thirdPart.ToReadableURL()">
                                     @thirdPart.CarBrand @thirdPart.CarModel (@thirdPart.Year)
                                         </a>
                                     </h5>

@@ -10,7 +10,7 @@
     using System.Diagnostics;
     using System.Linq;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IPartService parts;
         private readonly IMemoryCache cache;

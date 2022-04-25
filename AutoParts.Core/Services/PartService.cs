@@ -1,17 +1,14 @@
 ﻿namespace AutoParts.Core.Services
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using AutoParts.Core.Constants;
     using AutoParts.Core.Contract;
-    using AutoParts.Core.Models.Home;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Models;
-    using AutoMapper.QueryableExtensions;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AutoMapper;
 
     public class PartService : IPartService
     {
@@ -34,7 +31,7 @@
             int partsPerPage
             )
         {
-            var partsQuery = this.data.Parts.AsQueryable();
+            var partsQuery = this.data.Parts.Where(p => p.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(brand))
             {
@@ -117,7 +114,8 @@
                 ImageUrl = imageUrl,
                 Year = year,
                 IsUsed = isUsed,
-                DealerId = dealerId
+                DealerId = dealerId,
+                IsPublic = false
             };
 
             this.data.Parts.Add(myPart);
@@ -156,6 +154,7 @@
             myPart.ImageUrl = imageUrl;
             myPart.Year = year;
             myPart.IsUsed = isUsed;
+            myPart.IsPublic = false;
 
             this.data.SaveChanges();
 
@@ -165,6 +164,7 @@
         public IEnumerable<LatestPartServiceModel> Latest()
                     => this.data
                             .Parts
+                               .Where(p=>p.IsPublic)
                                .OrderByDescending(c => c.Id)
                                .ProjectTo<LatestPartServiceModel>(this.mapper)
                                .Take(3)

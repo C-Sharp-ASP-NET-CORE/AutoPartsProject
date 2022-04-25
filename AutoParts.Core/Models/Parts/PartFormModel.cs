@@ -1,9 +1,10 @@
 ﻿namespace AutoParts.Core.Models.Parts
 {
+    using AutoParts.Core.Contract;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Infrastructure.Data.DataConstants;
-    public class PartFormModel
+    public class PartFormModel : IPartModel
     {
         [Display(Name = "Category")]
         public int CategoryId { get; init; }

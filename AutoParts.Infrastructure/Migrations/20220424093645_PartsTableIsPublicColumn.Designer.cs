@@ -4,14 +4,16 @@ using AutoParts.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoParts.Infrastructure.Migrations
 {
     [DbContext(typeof(AutoPartsDbContext))]
-    partial class AutoPartsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220424093645_PartsTableIsPublicColumn")]
+    partial class PartsTableIsPublicColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

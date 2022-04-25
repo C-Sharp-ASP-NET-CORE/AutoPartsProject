@@ -86,6 +86,15 @@ namespace AutoParts
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name: "Part Details",
+                //    pattern: "/Part/Details/{id}/{information}",
+                //    defaults: new { controller = "Parts", action = "Details" });
+
+                endpoints.MapControllerRoute(
+                   name: "Areas",
+                   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

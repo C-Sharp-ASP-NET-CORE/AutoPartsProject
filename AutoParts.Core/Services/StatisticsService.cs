@@ -14,7 +14,7 @@
 
         public StatisticsServiceModel Total()
         {
-            var totalParts = this.data.Parts.Count();
+            var totalParts = this.data.Parts.Count(p=>p.IsPublic);
             var totalUsers = this.data.Users.Count();
 
             return new StatisticsServiceModel

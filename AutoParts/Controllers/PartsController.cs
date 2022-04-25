@@ -1,17 +1,15 @@
 ﻿namespace AutoParts.Controllers
 {
     using AutoMapper;
+    using AutoParts.Core.Constants;
     using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure;
-    using AutoParts.Infrastructure.Data;
-    using AutoParts.Infrastructure.Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Linq;
+    using static WebConstants;
 
-    public class PartsController : Controller
+    public class PartsController : BaseController
     {
         private readonly IDealerService dealers;
         private readonly IPartService parts;
@@ -19,7 +17,7 @@
 
         public PartsController(
             IDealerService dealers,
-             IPartService parts, 
+             IPartService parts,
              IMapper mapper)
         {
             this.parts = parts;
@@ -64,7 +62,7 @@
                 return View(part);
             }
 
-            this.parts.Create(
+            var partId = this.parts.Create(
                 part.CategoryId,
                 part.Manufacturer,
                 part.CarBrand,
@@ -77,7 +75,10 @@
                 part.IsUsed,
                 dealerId);
 
-            return RedirectToAction(nameof(All));
+            ViewData[MessageConstant.SuccessMessage] = "Part Added and it's waiting for approval!";
+            TempData[GlobalMessageKey] = "Part Added and it's waiting for approval!";
+
+            return RedirectToAction(nameof(Details), new { id = partId, information = part.ToReadableURL() });
         }
 
         public IActionResult All([FromQuery] AllPartsQueryModel query)
@@ -106,9 +107,22 @@
             return View(myParts);
         }
 
+        public IActionResult Details(int id, string information)
+        {
+            var part = this.parts.Details(id);
+
+            if (information != part.ToReadableURL())
+            {
+                return BadRequest();
+            }
+
+            return View(part);
+        }
+
         [Authorize]
         public IActionResult Edit(int id)
         {
+
             var userId = this.User.Id();
 
             if (!this.dealers.IsDealer(userId) && !User.IsAdmin())
@@ -133,6 +147,8 @@
         [HttpPost]
         public IActionResult Edit(int id, PartFormModel part)
         {
+            ViewData[MessageConstant.SuccessMessage] = "Part Edited and it's waiting for approval!";
+
             var dealerId = this.dealers.IdByUser(User.Id());
 
             if (dealerId == 0 && !User.IsAdmin())
@@ -170,7 +186,10 @@
             //    return BadRequest();
             //}
 
-            return RedirectToAction(nameof(All));
+            ViewData[MessageConstant.SuccessMessage] = "Part Edited and it's waiting for approval!";
+            TempData[GlobalMessageKey] = "Part Edited and it's waiting for approval!";
+
+            return RedirectToAction(nameof(Details), new { id, information = part.ToReadableURL() });
         }
     }
 }

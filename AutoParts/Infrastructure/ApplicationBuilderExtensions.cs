@@ -1,4 +1,5 @@
-﻿namespace AutoParts.Extensions
+﻿
+namespace AutoParts.Extensions
 {
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Models;
@@ -9,6 +10,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using static Areas.Admin.AdminConstants;
     using static WebConstants;
     public static class ApplicationBuilderExtensions
     {

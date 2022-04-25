@@ -4,7 +4,7 @@
 
     public static class ModelExtensions
     {
-        public static string GetInformation(this IPartModel part)
+        public static string ToReadableURL(this IPartModel part)
             => part.CarBrand + "-" + part.CarModel + "-" + part.Year;
     }
 }
