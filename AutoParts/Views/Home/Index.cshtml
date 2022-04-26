@@ -15,61 +15,61 @@
     <div class="col-md-5">
         @if (!parts.Any())
         {
-                    <div class="jumbotron">
-                        <h1 class="display-4">Welcome to the best place for Auto Parts!</h1>
-                        <p class="lead">There are no parts currently, why don't you add any?</p>
-                        <hr class="my-4">
-                        <p class="lead">
-                            <a asp-controller="Parts" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Part</a>
-                        </p>
-                    </div>
+            <div class="jumbotron">
+                <h1 class="display-4">Welcome to the best place for Auto Parts!</h1>
+                <p class="lead">There are no parts currently, why don't you add any?</p>
+                <hr class="my-4">
+                <p class="lead">
+                    <a asp-controller="Parts" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Part</a>
+                </p>
+            </div>
         }
 
         <div id="carouselExampleControls" class="carousel slide mt-3" data-ride="carousel">
             <ol class="carousel-indicators">
-            <li data-target="@firstPart" data-slide-to="@firstPart" class="active"></li>
-            <li data-target="@secondPart" data-slide-to="@secondPart"></li>
-            <li data-target="@thirdPart" data-slide-to="@thirdPart"></li>
+                <li data-target="@firstPart" data-slide-to="@firstPart" class="active"></li>
+                <li data-target="@secondPart" data-slide-to="@secondPart"></li>
+                <li data-target="@thirdPart" data-slide-to="@thirdPart"></li>
             </ol>
             <div class="carousel-inner">
                 @if (firstPart != null)
                 {
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="@firstPart.ImageUrl" alt="@firstPart.Category">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@firstPart.Id" asp-route-information="@firstPart.ToReadableURL()">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="@firstPart.ImageUrl" alt="@firstPart.Category">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>
+                                <a class="btn btn-primary" asp-controller="Parts" asp-action="Details" asp-route-id="@firstPart.Id" asp-route-information="@firstPart.ToReadableURL()">
                                     @firstPart.CarBrand @firstPart.CarModel (@firstPart.Year)
-                                        </a>
-                                    </h5>
-                                </div>
-                            </div>
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
                 }
                 @if (secondPart != null)
                 {
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="@secondPart.ImageUrl" alt="@secondPart.Category">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@secondPart.Id" asp-route-information="@secondPart.ToReadableURL()">
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="@secondPart.ImageUrl" alt="@secondPart.Category">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>
+                                <a class="btn btn-primary" asp-controller="Parts" asp-action="Details" asp-route-id="@secondPart.Id" asp-route-information="@secondPart.ToReadableURL()">
                                     @secondPart.CarBrand @secondPart.CarModel (@secondPart.Year)
-                                        </a>
-                                    </h5>
-                                </div>
-                            </div>
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
                 }
                 @if (thirdPart != null)
                 {
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="@thirdPart.ImageUrl" alt="@thirdPart.Category">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>
-                                        <a class="btn btn-primary" asp-controller="Pars" asp-action="Details" id="@thirdPart.Id" asp-route-information="@thirdPart.ToReadableURL()">
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="@thirdPart.ImageUrl" alt="@thirdPart.Category">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>
+                                <a class="btn btn-primary" asp-controller="Parts" asp-action="Details" asp-route-id="@thirdPart.Id" asp-route-information="@thirdPart.ToReadableURL()">
                                     @thirdPart.CarBrand @thirdPart.CarModel (@thirdPart.Year)
-                                        </a>
-                                    </h5>
-                                </div>
-                            </div>
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
                 }
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -82,42 +82,44 @@
             </a>
         </div>
 
+        <div class="mb-5"></div>
+
         <div class="row">
-    <div class="col-12 text-center">
-        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
-    </div>
-</div>
-
-<div class="jumbotron d-none" id="statistics">
-    <div class="row">
-        <h2 class="col-md-4 text-center" id="total-cars"></h2>
-        <h2 class="col-md-4 text-center" id="total-users"></h2>
-        <h2 class="col-md-4 text-center" id="total-rents"></h2>
-    </div>
-</div>
-
-                @section Scripts {
-    <script>
-        $('#statistics-button').on('click', ev => {
-            $.get('/api/statistics', (data) => {
-                $('#total-cars').text(data.totalCars + " Cars");
-                $('#total-users').text(data.totalUsers + " Users");
-                $('#total-rents').text(data.totalRents + " Rents");
-                $('#statistics').removeClass('d-none');
-                $('#statistics-button').hide();
-            });
-        });
-    </script>
-}
-
-         @* <div class="mb-5"></div>
-                <div class="jumbotron">
-            <div class="row">
-            <h2 class="col-md-4 text center">
-            @Model.TotalParts Parts
-            </h2>
-            <h2 class="col-md-4 text-center">
-            @Model.TotalUsers Users
-            </h2>
+            <div class="col-12 text-center">
+                <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
             </div>
-                </div>*@
+        </div>
+
+        <div class="jumbotron d-none" id="statistics">
+            <div class="row">
+                <h2 class="col-md-4 text-center" id="total-parts"></h2>
+                <h2 class="col-md-4 text-center" id="total-users"></h2>
+            </div>
+        </div>
+
+        @section Scripts {
+        <script>
+            $('#statistics-button').on('click', ev => {
+                $.get('/api/statistics', (data) => {
+                    $('#total-cars').text(data.totalCars + " Parts");
+                    $('#total-users').text(data.totalUsers + " Users");
+                    $('#statistics').removeClass('d-none');
+                    $('#statistics-button').hide();
+                });
+            });
+        </script>
+        }
+    </div>
+</div>
+
+@* <div class="mb-5"></div>
+    <div class="jumbotron">
+    <div class="row">
+    <h2 class="col-md-4 text center">
+    @Model.TotalParts Parts
+    </h2>
+    <h2 class="col-md-4 text-center">
+    @Model.TotalUsers Users
+    </h2>
+    </div>
+    </div>*@
