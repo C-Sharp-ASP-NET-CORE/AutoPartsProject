@@ -7,6 +7,7 @@
     using AutoParts.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using static Areas.Admin.AdminConstants;
     using static WebConstants;
 
     public class PartsController : BaseController
@@ -192,6 +193,26 @@
             TempData[GlobalMessageKey] = $"Part Edited{(this.User.IsAdmin() ? "!" : " and it's waiting for approval")}!";
 
             return RedirectToAction(nameof(Details), new { id, information = part.ToReadableURL() });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var partToDelete = this.parts.GetPartById(id);
+
+            if (partToDelete == null)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Part does not exist!";
+                return this.RedirectToAction("Invalid", "Home", new { area = "" });
+            }
+
+            return this.View(partToDelete);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(PartServiceModel part)
+        {
+            this.parts.Delete(part);
+            return this.RedirectToAction("All", "Parts");
         }
     }
 }

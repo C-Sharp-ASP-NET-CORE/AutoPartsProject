@@ -2,21 +2,21 @@
 
 <h2><b>Details:</b></h2>
 
- <div class="col-md-3">
-            <div class="card mb-3" style="width: 18rem;">
-                <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.CarBrand @Model.CarModel - @Model.Year (@Model.CategoryName): @Model.Price">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-center">
-                        @Model.CategoryName for @Model.CarBrand @Model.CarModel (@Model.Year)
-                        <br>@Model.Price lv.
-                    </h5>
-                    <p class="card-text">Description: @Model.Description</p>
-                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.ToReadableURL()" class="btn btn-primary">View</a>
-                    @if (ViewBag.AllowPartEdit==true || User.IsAdmin())
-                   {
-                       <a asp-controller="Parts" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                       <a asp-controller="Parts" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                   }
-                </div>
-            </div>
+<div class="col-md-3">
+    <div class="card mb-3" style="width: 18rem;">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.CarBrand @Model.CarModel - @Model.Year (@Model.CategoryName): @Model.Price">
+        <div class="card-body text-center">
+            <h5 class="card-title text-center">
+                @Model.CategoryName for @Model.CarBrand @Model.CarModel (@Model.Year)
+                <br>@Model.Price lv.
+            </h5>
+            <p class="card-text">Description: @Model.Description</p>
+            <a asp-controller="Parts" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.ToReadableURL()" class="btn btn-primary">View</a>
+            @if (ViewBag.AllowPartEdit == true || User.IsAdmin())
+            {
+                <a asp-controller="Parts" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-controller="Parts" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            }
         </div>
+    </div>
+</div>

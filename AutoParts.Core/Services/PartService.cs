@@ -128,6 +128,19 @@
             return myPart.Id;
         }
 
+        public void Delete(PartServiceModel part)
+        {
+            var partToDelete = this.data
+                                        .Parts
+                                        .FirstOrDefault(p => p.Id == part.Id);
+
+            if (partToDelete != null)
+            {
+                this.data.Parts.Remove(partToDelete);
+                this.data.SaveChanges();
+            }
+        }
+
         public PartDetailsServiceModel Details(int id)
                      => this.data.Parts
                                     .Where(p => p.Id == id)
@@ -163,6 +176,15 @@
             this.data.SaveChanges();
 
             return true;
+        }
+
+        public PartServiceModel GetPartById(int id)
+        {
+            var part = this.data.Parts
+                                 .ProjectTo<PartServiceModel>(this.mapper)
+                                 .FirstOrDefault(p=>p.Id == id);
+
+            return part;
         }
 
         public bool IsByDealer(int carId, int dealerId)

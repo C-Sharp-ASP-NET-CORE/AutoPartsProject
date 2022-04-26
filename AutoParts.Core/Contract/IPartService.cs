@@ -43,6 +43,8 @@
         public PartDetailsServiceModel Details(int id);
         IEnumerable<LatestPartServiceModel> Latest();
         IEnumerable<PartServiceModel> ByUser(string userId);
+        PartServiceModel GetPartById(int id);
+        void Delete(PartServiceModel part);
         bool IsByDealer(int carId, int dealerId);
         void ChangeVisibility(int parId);
         IEnumerable<string> AllPartBrands();
