@@ -12,11 +12,15 @@
             this.CreateMap<PartDetailsServiceModel, PartFormModel>();
             this.CreateMap<Part, PartIndexViewModel>();
             this.CreateMap<Part, LatestPartServiceModel>();
+            this.CreateMap<Category, PartCategoryServiceModel>();
+
+            this.CreateMap<Part, PartServiceModel>()
+                .ForMember(p => p.CategoryName, cfg => cfg.MapFrom(p => p.Category.Name));
 
 
             this.CreateMap<Part, PartDetailsServiceModel>()
                 .ForMember(p => p.UserId, cfg => cfg.MapFrom(p => p.Dealer.UserId))
-                .ForMember(p=> p.CategoryName, cfg=>cfg.MapFrom(p=>p.Category.Name));
+                .ForMember(p => p.CategoryName, cfg => cfg.MapFrom(p => p.Category.Name));
         }
     }
 }

@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using AutoParts.Core.Constants;
     using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure.Data;
@@ -18,20 +17,20 @@
         public PartService(
             AutoPartsDbContext data,
             IMapper mapper)
-        { 
+        {
             this.data = data;
             this.mapper = mapper.ConfigurationProvider;
         }
 
         public PartQueryServiceModel All(
-            string brand,
-            string searchTerm,
-            PartsSorting sorting,
-            int currentPage,
-            int partsPerPage
-            )
+            string brand = null,
+            string searchTerm = null,
+            PartsSorting sorting = PartsSorting.DateCreated,
+            int currentPage = 1,
+            int partsPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
-            var partsQuery = this.data.Parts.Where(p => p.IsPublic);
+            var partsQuery = this.data.Parts.Where(p => !publicOnly || p.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(brand))
             {
@@ -78,11 +77,7 @@
 
         public IEnumerable<PartCategoryServiceModel> AllPartCategories()
                      => this.data.Categories
-                         .Select(c => new PartCategoryServiceModel
-                         {
-                             Id = c.Id,
-                             Name = c.Name
-                         })
+                         .ProjectTo<PartCategoryServiceModel>(this.mapper)
                          .ToList();
 
         public IEnumerable<PartServiceModel> ByUser(string userId)
@@ -93,6 +88,15 @@
         public bool CategoryExists(int categoryId)
                      => this.data.Categories
                                 .Any(c => c.Id == categoryId);
+
+        public void ChangeVisibility(int parId)
+        {
+            var part = this.data.Parts.Find(parId);
+
+            part.IsPublic = !part.IsPublic;
+
+            this.data.SaveChanges();
+        }
 
         public int Create(
                     int categoryId, string manufacturer,
@@ -135,11 +139,11 @@
                     string carBrand, string carModel,
                     decimal price, string description,
                     string serialNumber, string imageUrl,
-                    int year, bool isUsed, int dealerId)
+                    int year, bool isUsed, bool isPublic)
         {
             var myPart = this.data.Parts.Find(id);
 
-            if (myPart.DealerId != dealerId)
+            if (myPart == null)
             {
                 return false;
             }
@@ -154,17 +158,22 @@
             myPart.ImageUrl = imageUrl;
             myPart.Year = year;
             myPart.IsUsed = isUsed;
-            myPart.IsPublic = false;
+            myPart.IsPublic = isPublic;
 
             this.data.SaveChanges();
 
             return true;
         }
 
+        public bool IsByDealer(int carId, int dealerId)
+                    => this.data
+                            .Parts
+                            .Any(c => c.Id == carId && c.DealerId == dealerId);
+
         public IEnumerable<LatestPartServiceModel> Latest()
                     => this.data
                             .Parts
-                               .Where(p=>p.IsPublic)
+                               .Where(p => p.IsPublic)
                                .OrderByDescending(c => c.Id)
                                .ProjectTo<LatestPartServiceModel>(this.mapper)
                                .Take(3)
@@ -172,16 +181,7 @@
 
         private IEnumerable<PartServiceModel> GetParts(IQueryable<Part> partQuery)
                      => partQuery
-                                .Select(p => new PartServiceModel
-                                {
-                                    Id = p.Id,
-                                    CategoryName = p.Category.Name,
-                                    CarBrand = p.CarBrand,
-                                    CarModel = p.CarModel,
-                                    Price = p.Price,
-                                    Year = p.Year,
-                                    ImageUrl = p.ImageUrl
-                                })
+                                .ProjectTo<PartServiceModel>(this.mapper)
                                 .ToList();
     }
 }

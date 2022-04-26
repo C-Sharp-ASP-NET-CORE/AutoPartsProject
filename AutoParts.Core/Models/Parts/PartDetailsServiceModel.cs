@@ -5,7 +5,6 @@
         public string Description { get; init; }
 
         public int CategoryId { get; init; }
-        public string CategoryName { get; set; }
 
         public int DealerId { get; init; }
 

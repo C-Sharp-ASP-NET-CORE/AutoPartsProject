@@ -3,6 +3,7 @@ namespace AutoParts
     using AutoParts.Core.Contract;
     using AutoParts.Core.Services;
     using AutoParts.Extensions;
+    using AutoParts.Infrastructure;
     using AutoParts.Infrastructure.Data;
     using AutoParts.Infrastructure.Data.Models;
     using AutoParts.Infrastructure.Data.Repositories;
@@ -86,14 +87,12 @@ namespace AutoParts
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllerRoute(
-                //    name: "Part Details",
-                //    pattern: "/Part/Details/{id}/{information}",
-                //    defaults: new { controller = "Parts", action = "Details" });
+                endpoints.MapDefaultAreaRoute();
 
                 endpoints.MapControllerRoute(
-                   name: "Areas",
-                   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    name: "Part Details",
+                    pattern: "/Part/Details/{id}/{information}",
+                    defaults: new { controller = "Parts", action = "Details" });
 
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();

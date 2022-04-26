@@ -46,7 +46,7 @@
         {
             var dealerId = this.dealers.IdByUser(User.Id());
 
-            if (dealerId == 0 && !User.IsAdmin())
+            if (dealerId == 0)
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
@@ -75,7 +75,7 @@
                 part.IsUsed,
                 dealerId);
 
-            ViewData[MessageConstant.SuccessMessage] = "Part Added and it's waiting for approval!";
+            //ViewData[MessageConstant.SuccessMessage] = "Part Added and it's waiting for approval!";
             TempData[GlobalMessageKey] = "Part Added and it's waiting for approval!";
 
             return RedirectToAction(nameof(Details), new { id = partId, information = part.ToReadableURL() });
@@ -147,8 +147,6 @@
         [HttpPost]
         public IActionResult Edit(int id, PartFormModel part)
         {
-            ViewData[MessageConstant.SuccessMessage] = "Part Edited and it's waiting for approval!";
-
             var dealerId = this.dealers.IdByUser(User.Id());
 
             if (dealerId == 0 && !User.IsAdmin())
@@ -167,7 +165,12 @@
                 return View(part);
             }
 
-            var partIsEdited = this.parts.Edit(
+            if (!this.parts.IsByDealer(id, dealerId) && !User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
+            this.parts.Edit(
                 id,
                 part.CategoryId,
                 part.Manufacturer,
@@ -179,15 +182,14 @@
                 part.ImageUrl,
                 part.Year,
                 part.IsUsed,
-                dealerId);
+                this.User.IsAdmin());
 
             //if (!partIsEdited)
             //{
             //    return BadRequest();
             //}
 
-            ViewData[MessageConstant.SuccessMessage] = "Part Edited and it's waiting for approval!";
-            TempData[GlobalMessageKey] = "Part Edited and it's waiting for approval!";
+            TempData[GlobalMessageKey] = $"Part Edited{(this.User.IsAdmin() ? "!" : " and it's waiting for approval")}!";
 
             return RedirectToAction(nameof(Details), new { id, information = part.ToReadableURL() });
         }

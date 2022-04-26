@@ -14,17 +14,13 @@
     </div>
 
     <li class="nav-item">
-            <a href="/" class="brand-link">
-                <img src="~/img/home.png" alt="Home Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-                <p>Home</p>
-            </a>
-            <a href="/Parts/All" class="brand-link">
-                <img src="~/img/all.png" alt="All Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-                <span class="brand-text font-weight-light">All Parts</span>
-            </a>
-            <a href="/Parts/Mine" class="brand-link">
-            <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-            <p>My Parts</p>
+        <a href="/" class="brand-link">
+            <img src="~/img/home.png" alt="Home Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>Home</p>
+        </a>
+        <a href="/Parts/All" class="brand-link">
+            <img src="~/img/all.png" alt="All Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <span class="brand-text font-weight-light">All Parts</span>
         </a>
     </li>
 
@@ -32,14 +28,24 @@
     var userIsDealer = Dealers.IsDealer(userId);
     var userIsAdmin = User.IsAdmin();
 
-    @if (userIsDealer || userIsAdmin)
+    @if (userIsAdmin)
+    {
+        <a href="/Admin/Parts/All" class="brand-link">
+            <img src="~/img/Admin.png" alt="Admin Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <span class="brand-text font-weight-light">Administration</span>
+        </a>
+    }else if (userIsDealer)
     {
         <a href="/Parts/Add" class="brand-link">
-                <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-                <p>Add Part</p>
-            </a>
+            <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>Add Part</p>
+        </a>
+        <a href="/Parts/Mine" class="brand-link">
+            <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>My Parts</p>
+        </a>
     }
-    else if (!userIsAdmin)
+    else if (!userIsDealer)
     {
         <a href="/Parts/Add" class="brand-link">
             <img src="~/img/dealer.png" alt="Dealer Logo" class="brand-image img-circle elevation-1" style="opacity: .8">

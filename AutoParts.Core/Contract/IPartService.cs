@@ -6,12 +6,12 @@
     public interface IPartService
     {
         PartQueryServiceModel All(
-            string brand,
-            string searchTerm,
-            PartsSorting sorting,
-            int currentPage,
-            int partsPerPage
-            );
+            string brand=null,
+            string searchTerm=null,
+            PartsSorting sorting= PartsSorting.DateCreated,
+            int currentPage = 1,
+            int partsPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         int Create(
                 int categoryId,
@@ -38,11 +38,13 @@
                string imageUrl,
                int year,
                bool isUsed,
-               int dealerId);
+               bool isPublic);
 
         public PartDetailsServiceModel Details(int id);
         IEnumerable<LatestPartServiceModel> Latest();
         IEnumerable<PartServiceModel> ByUser(string userId);
+        bool IsByDealer(int carId, int dealerId);
+        void ChangeVisibility(int parId);
         IEnumerable<string> AllPartBrands();
         IEnumerable<PartCategoryServiceModel> AllPartCategories();
 

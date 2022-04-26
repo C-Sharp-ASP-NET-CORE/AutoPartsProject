@@ -19,5 +19,6 @@
         public bool IsUsed { get; init; }
 
         public string CategoryName { get; init; }
+        public bool IsPublic { get; init; }
     }
 }
