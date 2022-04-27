@@ -13,12 +13,10 @@
         public DbSet<Part> Parts { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Dealer> Dealers { get; init; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.Entity<Contragent>()
-            //    .HasIndex(c => c.CustomerNumber)
-            //    .IsUnique();
             builder
                 .Entity<Part>()
                 .HasOne(c => c.Category)
@@ -32,16 +30,6 @@
                 .WithMany(p=>p.Parts)
                 .HasForeignKey(p => p.DealerId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder
-            //    .Entity<Deal>()
-            //    .HasOne(d => d.Contragent)
-            //    .WithMany(d => d.Deals)
-            //    .HasForeignKey(d => d.ContragentId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.Entity<DealSubject>()
-            //    .HasKey(x => new { x.DealId, x.PartId });
 
             builder
                .Entity<Dealer>()

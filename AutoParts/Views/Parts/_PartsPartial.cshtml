@@ -12,6 +12,7 @@
                         <br>@part.Price lv.
                     </h5>
                     <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id" asp-route-information="@part.ToReadableURL()" class="btn btn-primary">View</a>
+                    @*<button class="btn btn-primary text-white font-weigth-bold" data-toggle="modal" data-target="#orderModal">Add to Cart</button>*@
                     @if (ViewBag.AllowPartEdit==true || User.IsAdmin())
                    {
                        <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id" class="btn btn-warning">Edit</a>

@@ -7,7 +7,6 @@
     using AutoParts.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using static Areas.Admin.AdminConstants;
     using static WebConstants;
 
     public class PartsController : BaseController

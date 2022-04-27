@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoParts.Core.Models.Home;
+    using AutoParts.Core.Models.Orders;
     using AutoParts.Core.Models.Parts;
     using AutoParts.Infrastructure.Data.Models;
 
@@ -13,6 +14,8 @@
             this.CreateMap<Part, PartIndexViewModel>();
             this.CreateMap<Part, LatestPartServiceModel>();
             this.CreateMap<Category, PartCategoryServiceModel>();
+            this.CreateMap<OrderServiceModel, Order>()
+                .ForMember(o=>o.IssuerId, cfg=>cfg.MapFrom(o=>o.Issuer.Id));
 
             this.CreateMap<Part, PartServiceModel>()
                 .ForMember(p => p.CategoryName, cfg => cfg.MapFrom(p => p.Category.Name));

@@ -30,6 +30,7 @@ namespace AutoParts
                     .AddScoped<IDealerService, DealerService>()
                     .AddScoped<IPartService, PartService>()
                     .AddScoped<IStatisticsService, StatisticsService>()
+                    .AddScoped<IOrderService, OrderService>()
                     //.AddScoped<IUserService, UserService>()
                     .AddDbContext<AutoPartsDbContext>(options => options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
