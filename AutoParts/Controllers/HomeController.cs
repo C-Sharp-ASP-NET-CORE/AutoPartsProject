@@ -2,14 +2,12 @@
 {
     using AutoParts.Core.Contract;
     using AutoParts.Core.Models.Parts;
-    using AutoParts.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
-
+    using static WebConstants.Cache;
     public class HomeController : BaseController
     {
         private readonly IPartService parts;
@@ -26,10 +24,7 @@
         public IActionResult Index()
         {
             //ViewData[MessageConstant.SuccessMessage] = "Welcome";
-
-            const string latestPartsCacheKey = "LatestPartsCacheKey";
-
-            var latestParts = this.cache.Get<List<LatestPartServiceModel>>(latestPartsCacheKey);
+            var latestParts = this.cache.Get<List<LatestPartServiceModel>>(LatestPartsCacheKey);
 
             if (latestParts==null)
             {
@@ -41,7 +36,7 @@
             var cacheOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
-            this.cache.Set(latestPartsCacheKey, latestParts, cacheOptions);
+            this.cache.Set(LatestPartsCacheKey, latestParts, cacheOptions);
 
             return View(latestParts);
         }
