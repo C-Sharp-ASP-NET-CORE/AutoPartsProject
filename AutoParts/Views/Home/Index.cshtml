@@ -82,7 +82,7 @@
             </a>
         </div>
 
-        <div class="mb-5"></div>
+        <div class="mb-2"></div>
 
         <div class="row">
             <div class="col-12 text-center">
@@ -96,12 +96,11 @@
                 <h2 class="col-md-4 text-center" id="total-users"></h2>
             </div>
         </div>
-
         @section Scripts {
         <script>
             $('#statistics-button').on('click', ev => {
                 $.get('/api/statistics', (data) => {
-                    $('#total-cars').text(data.totalCars + " Parts");
+                    $('#total-parts').text(data.totalParts + " Parts");
                     $('#total-users').text(data.totalUsers + " Users");
                     $('#statistics').removeClass('d-none');
                     $('#statistics-button').hide();

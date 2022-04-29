@@ -43,5 +43,10 @@
 
             return result > 0;
         }
+
+        public IQueryable<OrderServiceModel> GetAll()
+        {
+           return (IQueryable<OrderServiceModel>)this.data.Orders;
+        }
     }
 }

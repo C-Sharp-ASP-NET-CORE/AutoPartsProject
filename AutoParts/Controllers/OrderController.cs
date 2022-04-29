@@ -30,5 +30,17 @@
 
             return Redirect("/");
         }
+
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/Order/Cart/Complete")]
+        public IActionResult Complete()
+        {
+            return View();
+        }
     }
 }

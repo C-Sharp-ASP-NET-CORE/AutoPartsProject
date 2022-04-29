@@ -12,8 +12,8 @@
             </h5>
             <p class="card-text">Description: @Model.Description</p>
             <a asp-controller="Parts" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.ToReadableURL()" class="btn btn-primary">View</a>
-            @*<button class="btn btn-primary text-white font-weigth-bold" data-toggle="modal" data-target="#orderModal">Add to Cart</button>*@
-            <a href="/Part/Order" class="btn btn-primary text-white font-weigth-bold">Add to Cart</a>
+            <button class="btn btn-primary text-white font-weigth-bold" data-toggle="modal" data-target="#orderModal">Add to Cart</button>
+            @*<a href="/Order/Part/@Model.Id" class="btn btn-primary text-white font-weigth-bold">Add to Cart</a>*@
             @if (ViewBag.AllowPartEdit == true || User.IsAdmin())
             {
                 <a asp-controller="Parts" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>

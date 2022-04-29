@@ -1,15 +1,17 @@
 ﻿namespace AutoParts.Core.Contracts
 {
+    using AutoParts.Core.Models.User;
+    using AutoParts.Infrastructure.Data.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     public interface IUserService
     {
-        //Task<IEnumerable<UserListViewModel>> GetUsers();
+        Task<IEnumerable<UserListViewModel>> GetUsers();
 
-        //Task<UserEditViewModel> GetUserForEdit(string id);
+        Task<UserEditViewModel> GetUserForEdit(string id);
 
-        //Task<bool> UpdateUser(UserEditViewModel model);
+        Task<bool> UpdateUser(UserEditViewModel model);
 
-        //Task<ApplicationUser> GetUserById(string id);
+        Task<User> GetUserById(string id);
     }
 }

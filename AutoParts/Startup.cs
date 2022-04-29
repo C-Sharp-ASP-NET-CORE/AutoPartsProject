@@ -1,6 +1,7 @@
 namespace AutoParts
 {
     using AutoParts.Core.Contract;
+    using AutoParts.Core.Contracts;
     using AutoParts.Core.Services;
     using AutoParts.Extensions;
     using AutoParts.Infrastructure;
@@ -31,7 +32,7 @@ namespace AutoParts
                     .AddScoped<IPartService, PartService>()
                     .AddScoped<IStatisticsService, StatisticsService>()
                     .AddScoped<IOrderService, OrderService>()
-                    //.AddScoped<IUserService, UserService>()
+                    .AddScoped<IUserService, UserService>()
                     .AddDbContext<AutoPartsDbContext>(options => options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -89,6 +90,10 @@ namespace AutoParts
                 .UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultAreaRoute();
+
+                endpoints.MapControllerRoute(
+                    name: "Area",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "Part Details",

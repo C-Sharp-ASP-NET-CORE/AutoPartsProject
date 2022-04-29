@@ -30,11 +30,24 @@
 
     @if (userIsAdmin)
     {
+        <a href="/admin/user/manageusers" class="brand-link">
+            <img src="~/img/set-roles.png" alt="Roles Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <span class="brand-text font-weight-light">Set Roles</span>
+        </a>
         <a href="/Admin/Parts/All" class="brand-link">
             <img src="~/img/Admin.png" alt="Admin Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
             <span class="brand-text font-weight-light">Administration</span>
         </a>
-    }else if (userIsDealer)
+         <a href="/Parts/Add" class="brand-link">
+            <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>Add Part</p>
+        </a>
+        <a href="/Parts/Mine" class="brand-link">
+            <img src="~/img/my-parts.png" alt="MyParts Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+            <p>My Parts</p>
+        </a>
+    }
+    else if (userIsDealer)
     {
         <a href="/Parts/Add" class="brand-link">
             <img src="~/img/add.png" alt="Add Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
