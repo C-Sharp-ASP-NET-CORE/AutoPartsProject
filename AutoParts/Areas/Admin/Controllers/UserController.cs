@@ -108,7 +108,7 @@ namespace AutoParts.Areas.Admin.Controllers
         {
             await roleManager.CreateAsync(new IdentityRole()
             {
-                Name = "Manager"
+                Name = "Normal User"
             });
 
             return Ok();
